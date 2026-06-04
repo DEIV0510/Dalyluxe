@@ -168,20 +168,7 @@
     function next() { go(heroIndex + 1); }
     function restart() { clearInterval(heroTimer); heroTimer = setInterval(next, 5200); }
     if (!reduced) restart();
-
-    // light parallax (desktop, fine pointer)
-    if (!reduced && window.matchMedia("(pointer:fine)").matches) {
-      let ticking = false;
-      window.addEventListener("scroll", () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          const y = Math.min(window.scrollY, window.innerHeight);
-          wrap.style.transform = "translateY(" + y * 0.18 + "px)";
-          ticking = false;
-        });
-      }, { passive: true });
-    }
+    // Parallax removed by request: hero images no longer drift on scroll.
   }
 
   /* ==================================================================

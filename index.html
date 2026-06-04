@@ -105,53 +105,14 @@
     <div class="preloader__particles" id="preloaderParticles" aria-hidden="true"></div>
 
     <div class="preloader__stage">
-      <svg class="eye" viewBox="0 0 220 156" role="img" aria-label="Ojo con pestañas">
-        <defs>
-          <radialGradient id="irisGrad" cx="50%" cy="45%" r="60%">
-            <stop offset="0%" stop-color="#FFD3E8"/>
-            <stop offset="42%" stop-color="#FF8CC8"/>
-            <stop offset="100%" stop-color="#FF4FA3"/>
-          </radialGradient>
-          <linearGradient id="lashGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stop-color="#FF4FA3"/>
-            <stop offset="100%" stop-color="#FFD3E8"/>
-          </linearGradient>
-          <clipPath id="eyeClip">
-            <path d="M18,86 Q110,30 202,86 Q110,128 18,86 Z"/>
-          </clipPath>
-        </defs>
-
-        <!-- soft aura -->
-        <ellipse class="eye__aura" cx="110" cy="86" rx="86" ry="40"/>
-
-        <!-- iris within the eye shape -->
-        <g clip-path="url(#eyeClip)">
-          <circle class="eye__iris" cx="110" cy="86" r="30" fill="url(#irisGrad)"/>
-          <circle class="eye__pupil" cx="110" cy="86" r="12"/>
-          <circle class="eye__spark" cx="100" cy="76" r="4.5"/>
-        </g>
-
-        <!-- lids -->
-        <path class="eye__lid eye__lid--lower" d="M18,86 Q110,128 202,86"/>
-        <path class="eye__lid eye__lid--upper" d="M18,86 Q110,30 202,86"/>
-
-        <!-- lashes -->
-        <g class="eye__lashes" fill="none" stroke="url(#lashGrad)" stroke-width="3.4" stroke-linecap="round">
-          <path class="lash" style="--i:0" d="M40,74 Q31,58 26,48"/>
-          <path class="lash" style="--i:1" d="M57,64 Q50,46 45,36"/>
-          <path class="lash" style="--i:2" d="M75,56 Q70,38 66,27"/>
-          <path class="lash" style="--i:3" d="M93,50 Q90,32 88,21"/>
-          <path class="lash" style="--i:4" d="M110,47 L110,18"/>
-          <path class="lash" style="--i:5" d="M127,50 Q130,32 132,21"/>
-          <path class="lash" style="--i:6" d="M145,56 Q150,38 154,27"/>
-          <path class="lash" style="--i:7" d="M163,64 Q170,46 175,36"/>
-          <path class="lash" style="--i:8" d="M180,74 Q189,58 194,48"/>
-        </g>
-      </svg>
-
-      <div class="preloader__brand">
-        <span class="preloader__script">Dalyluxe</span>
-        <span class="preloader__word">L&nbsp;A&nbsp;S&nbsp;H&nbsp;E&nbsp;S</span>
+      <div class="plogo">
+        <img class="plogo__img" src="assets/img/logo.png" alt="DalyLuxe Lashes — Luxury Lash Studio" />
+        <span class="plogo__shine" aria-hidden="true"></span>
+        <span class="spark spark--1" aria-hidden="true"></span>
+        <span class="spark spark--2" aria-hidden="true"></span>
+        <span class="spark spark--3" aria-hidden="true"></span>
+        <span class="spark spark--4" aria-hidden="true"></span>
+        <span class="spark spark--5" aria-hidden="true"></span>
       </div>
 
       <div class="preloader__bar" aria-hidden="true"><span id="preloaderFill"></span></div>

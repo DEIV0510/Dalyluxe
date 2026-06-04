@@ -51,30 +51,30 @@ async function processPhoto({ key, out, rotate }) {
   console.log(`  ${out.padEnd(18)} ${meta.width}x${meta.height}`);
 }
 
-// Logo: key out the white background -> transparent PNG (keeps pink + gray)
+// Logo: the real source already has an alpha channel, so just trim + resize and
+// PRESERVE transparency. Only key out white if the source is actually opaque.
 async function processLogo() {
   const file = findFile('logo');
   if (!file) { console.warn('MISSING logo'); return; }
   const input = path.join(SRC, file);
-  const { data, info } = await sharp(input)
-    .resize({ width: 900, withoutEnlargement: true })
-    .ensureAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
+  const probe = await sharp(input).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const cornerAlpha = probe.data[3]; // top-left pixel alpha
+  if (cornerAlpha < 16) {
+    await sharp(input).trim().resize({ width: 900, withoutEnlargement: true })
+      .png({ compressionLevel: 9 }).toFile(path.join(OUT, 'logo.png'));
+    console.log('  logo.png (source already transparent: alpha preserved)');
+    return;
+  }
+  // Fallback: source has a solid (white) background -> key it to transparent
+  const { data, info } = await sharp(input).resize({ width: 900, withoutEnlargement: true })
+    .ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const ch = info.channels;
   for (let i = 0; i < data.length; i += ch) {
-    const r = data[i], g = data[i + 1], b = data[i + 2];
-    const w = Math.min(r, g, b);            // how "white" the pixel is
-    let a;
-    if (w >= 244) a = 0;                     // pure background -> transparent
-    else if (w <= 200) a = 255;             // ink (pink/gray) -> opaque
-    else a = Math.round((244 - w) / 44 * 255); // soft edge feather
-    data[i + 3] = a;
+    const w = Math.min(data[i], data[i + 1], data[i + 2]);
+    data[i + 3] = w >= 240 ? 0 : w <= 205 ? 255 : Math.round((240 - w) / 35 * 255);
   }
-  await sharp(data, { raw: { width: info.width, height: info.height, channels: ch } })
-    .trim({ threshold: 1 })
-    .png({ compressionLevel: 9 })
-    .toFile(path.join(OUT, 'logo.png'));
+  const keyed = await sharp(data, { raw: { width: info.width, height: info.height, channels: ch } }).png().toBuffer();
+  await sharp(keyed).trim().png({ compressionLevel: 9 }).toFile(path.join(OUT, 'logo.png'));
   console.log('  logo.png (white keyed to transparent)');
 }
 
